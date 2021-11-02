@@ -1,1 +1,1 @@
-# minesweeper_project
+모바일 프로그래밍 텀 프로젝트 - 지뢰찾기
