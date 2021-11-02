@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TableLayout table;
-        table = (TableLayout) findViewById(R.id.tableLayout);
+        table = findViewById(R.id.tableLayout);
         List<TableRow> tableRows = new ArrayList<>(9);
         for (int i = 0; i < 9; i++){
             tableRows.add(new TableRow(this));
