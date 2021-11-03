@@ -28,13 +28,15 @@ public class MainActivity extends AppCompatActivity {
             table.addView(tableRows.get(i));
         }
 
+
         //행 안에 넣을 수 있게 layout 만듬
         TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
                 TableRow.LayoutParams.WRAP_CONTENT,
                 TableRow.LayoutParams.WRAP_CONTENT,
                 1.0f);
 
-//      버튼 81개 만들고 행 안에 넣음
+
+        //버튼 81개 만들고 행 안에 넣음
         Button[][] buttons = new Button[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -42,12 +44,13 @@ public class MainActivity extends AppCompatActivity {
                 buttons[i][j].setLayoutParams(layoutParams);
                 tableRows.get(i).addView(buttons[i][j]);
 
-                // 클릭 됐을 때 flag가 되는지 확인
+
+                // 클릭 했을 때 flag가 되는지 확인
                 buttons[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view){
                         ((BlockButton)view).toggleFlag();
-                        System.out.println("((BlockButton)view).flag = " + ((BlockButton)view).flag);
+                        //System.out.println("((BlockButton)view).flag = " + ((BlockButton)view).flag);
                     }
                 });
             }
