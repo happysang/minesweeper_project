@@ -1,10 +1,9 @@
 package com.example.minesweeper;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.Button;
 
-import java.util.Random;
+import androidx.annotation.ColorInt;
 
 public class BlockButton extends Button {
     boolean mine = false;
@@ -32,14 +31,15 @@ public class BlockButton extends Button {
 
     public boolean breakBlock(){
         if (this.mine){
-        //this.setBackgroundColor();
+        this.setBackgroundColor(4);
             return true;
         }
         else{
-            //this.setBackgroundColor();
+            this.setBackgroundColor(8);
             return false;
         }
     }
+
 
     public boolean isMine() {
         return mine;
