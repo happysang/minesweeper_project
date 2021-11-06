@@ -25,7 +25,7 @@ public class BlockButton extends Button {
         else{
             this.flag = true;
             flags++;
-            this.setText("+");
+            this.setText("f");
         }
     }
 

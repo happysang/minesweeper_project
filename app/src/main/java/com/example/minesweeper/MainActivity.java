@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 buttons[i][j] = new BlockButton (this,i,j);
                 buttons[i][j].setLayoutParams(layoutParams);
                 tableRows.get(i).addView(buttons[i][j]);
+
                 // 클릭 했을 때 flag가 되는지 확인
                 buttons[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }
+        
+        // 랜덤으로 폭탄 10개 생성
         for (int i = 0; i < 10; i++){
             Random r = new Random();
             ArrayList <int[]> nums = new ArrayList<>();
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 continue;
             }
             nums.add(pair);
-            makeMine((BlockButton) buttons[pair[0]][pair[1]]);
+            makeMine((BlockButton)buttons[pair[0]][pair[1]] );
         }
     }
 
@@ -76,5 +79,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view){
             ((BlockButton)view).breakBlock();}});
     }
+
+
 }
 
