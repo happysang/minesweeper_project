@@ -37,6 +37,20 @@ public class MainActivity extends AppCompatActivity {
                 1.0f);
 
 
+        // 랜덤으로 폭탄 10개 생성
+        for (int i = 0; i < 10; i++) {
+            Random r = new Random();
+            ArrayList<int[]> bombs = new ArrayList<>();
+            int[] pair = new int[2];
+            pair[0] = r.nextInt(9);
+            pair[1] = r.nextInt(9);
+            if (bombs.contains(pair)) {
+                i--;
+                continue;
+            }
+            bombs.add(pair);
+        }
+
         //버튼 81개 만들고 행 안에 넣음
         Button[][] buttons = new Button[9][9];
         for (int i = 0; i < 9; i++) {
@@ -46,40 +60,24 @@ public class MainActivity extends AppCompatActivity {
                 tableRows.get(i).addView(buttons[i][j]);
 
                 // 클릭 했을 때 flag가 되는지 확인
-                buttons[i][j].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view){
-                        ((BlockButton)view).toggleFlag();
-                    }
-                });
+//                buttons[i][j].setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view){
+//                        ((BlockButton)view).toggleFlag();}});
             }
         }
         
-        // 랜덤으로 폭탄 10개 생성
-        for (int i = 0; i < 10; i++){
-            Random r = new Random();
-            ArrayList <int[]> nums = new ArrayList<>();
-            int [] pair = new int[2];
-            pair[0] = r.nextInt(9);
-            pair[1] = r.nextInt(9);
-            if (nums.contains(pair)){
-                i--;
-                continue;
-            }
-            nums.add(pair);
-            makeMine((BlockButton)buttons[pair[0]][pair[1]] );
+
+
+            BlockButton b = (BlockButton)buttons[pair[0]][pair[1]];
+            b.setMine(true);
+
+            // 클릭 했을 때 breakBlock이 되는지 확인
+//            b.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view){
+//                    ((BlockButton)view).breakBlock();}});
         }
     }
-
-    public void makeMine(BlockButton b){
-        b.setMine(true);
-        // 클릭 했을 때 breakBlock이 되는지 확인
-        b.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view){
-            ((BlockButton)view).breakBlock();}});
-    }
-
-
 }
 

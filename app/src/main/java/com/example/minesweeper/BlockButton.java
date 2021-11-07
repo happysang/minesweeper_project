@@ -31,11 +31,12 @@ public class BlockButton extends Button {
 
     public boolean breakBlock(){
         if (this.mine){
-        this.setBackgroundColor(4);
+            this.setText("@");
+//        this.setBackgroundColor(4);
             return true;
         }
         else{
-            this.setBackgroundColor(8);
+            this.setText("!");
             return false;
         }
     }
