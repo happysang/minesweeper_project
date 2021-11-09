@@ -8,7 +8,7 @@ import androidx.annotation.ColorInt;
 public class BlockButton extends Button {
     boolean mine = false;
     boolean flag = false;
-    int neighborMines = 0;
+    int neighborMines;
     static int flags = 0;
 
     public BlockButton(Context context, int x, int y) {
@@ -25,22 +25,24 @@ public class BlockButton extends Button {
         else{
             this.flag = true;
             flags++;
-            this.setText("f");
+            this.setText("\uD83D\uDEA9");
         }
     }
 
     public boolean breakBlock(){
         if (this.mine){
-            this.setText("@");
-//        this.setBackgroundColor(4);
+            this.setText("\uD83D\uDCA3");
             return true;
         }
+        else if(this.neighborMines == 0){
+            this.setBackgroundColor(4);
+            return false;
+        }
         else{
-            this.setText("!");
+            this.setText( Integer.toString(neighborMines));
             return false;
         }
     }
-
 
     public boolean isMine() {
         return mine;
