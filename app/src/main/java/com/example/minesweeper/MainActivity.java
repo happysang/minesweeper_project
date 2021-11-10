@@ -129,13 +129,16 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         private void chainBlock(BlockButton b) {
-                            if (b.neighborMines == 0){
-                                System.out.println(b.x+" "+b.y);
-                                b.breakBlock();
-                                if (b.breakState && b.x != 0) chainBlock(buttons[b.x-1][b.y]);
-                                if (b.breakState && b.x != 8) chainBlock(buttons[b.x+1][b.y]);
-                                if (b.breakState && b.y != 0) chainBlock(buttons[b.x][b.y-1]);
-                                if (b.breakState && b.y != 8) chainBlock(buttons[b.x][b.y+1]);
+                            System.out.println("x는"+b.x+" "+"y는"+b.y);
+                            b.breakBlock();
+                            if (b.neighborMines != 0){
+
+                            }
+                            else {
+                                if (!buttons[b.x-1][b.y].breakState && b.x != 0) chainBlock(buttons[b.x-1][b.y]);
+                                if (!buttons[b.x+1][b.y].breakState && b.x != 8) chainBlock(buttons[b.x+1][b.y]);
+                                if (!buttons[b.x][b.y-1].breakState && b.y != 0) chainBlock(buttons[b.x][b.y-1]);
+                                if (!buttons[b.x][b.y+1].breakState && b.y != 8) chainBlock(buttons[b.x][b.y+1]);
                             }
                         }
                     });
