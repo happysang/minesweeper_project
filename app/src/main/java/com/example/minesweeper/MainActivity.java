@@ -1,14 +1,12 @@
 package com.example.minesweeper;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,35 +95,40 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ToggleButton tButton = (ToggleButton) findViewById(R.id.toggleButton);
-        tButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                for (int i = 0; i < 9; i++) {
-                    for (int j = 0; j < 9; j++) {
+        tButton.isChecked();
 
-                        if (isChecked){
-                            // break
-                            buttons[i][j].setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    ((BlockButton) view).breakBlock();
-                                }
-                            });
-                        }
-                        else{
-                            // flag
-                            buttons[i][j].setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    ((BlockButton) view).toggleFlag();
-                                }
-                            });
-                        }
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                    // break
+                    buttons[i][j].setOnClickListener(new View.OnClickListener() {
 
-                    }
-                }
+                        @Override
+                        public void onClick(View view) {
+                            if (tButton.isChecked()){
+                                if(((BlockButton) view).breakBlock()){
+                                    for (int i = 0; i < 9; i++) {
+                                        for (int j = 0; j < 9; j++) {
+                                            buttons[i][j].breakBlock();
+                                        }
+                                    }
+                                }
+                            }
+                            else{
+                                ((BlockButton) view).toggleFlag();
+                                System.out.println("정답 수"+BlockButton.answer);
+                                System.out.println("깃발 수"+BlockButton.flags);
+                                if(BlockButton.answer == 10){
+                                    for (int i = 0; i < 9; i++) {
+                                        for (int j = 0; j < 9; j++) {
+                                            buttons[i][j].breakBlock();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
             }
-        });
+        }
     }
 }
 
