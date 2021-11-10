@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -104,26 +105,33 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onClick(View view) {
+                            //isChecked() 가 참이라면 flag
                             if (tButton.isChecked()){
+                                ((BlockButton) view).toggleFlag();
+                                System.out.println(BlockButton.answer);
+                                if(BlockButton.answer == 10){
+                                    for (int i = 0; i < 9; i++) {
+                                        for (int j = 0; j < 9; j++) {
+                                            buttons[i][j].gameOver();
+                                        }
+                                    }
+                                    Toast toast = Toast.makeText(getApplicationContext(), "승리하였습니다!", Toast.LENGTH_LONG);
+                                    toast.show();
+                                }
+                            }
 
+                            //isChecked() 가 거짓이라면 break
+                            else{
                                 chainBlock(((BlockButton) view));
 
                                 if(((BlockButton) view).breakBlock()){
                                     for (int i = 0; i < 9; i++) {
                                         for (int j = 0; j < 9; j++) {
-                                            buttons[i][j].breakBlock();
+                                            buttons[i][j].gameOver();
                                         }
                                     }
-                                }
-                            }
-                            else{
-                                ((BlockButton) view).toggleFlag();
-                                if(BlockButton.answer == 10){
-                                    for (int i = 0; i < 9; i++) {
-                                        for (int j = 0; j < 9; j++) {
-                                            buttons[i][j].breakBlock();
-                                        }
-                                    }
+                                    Toast toast = Toast.makeText(getApplicationContext(), "패배하였습니다.!", Toast.LENGTH_LONG);
+                                    toast.show();
                                 }
                             }
                         }
@@ -131,14 +139,52 @@ public class MainActivity extends AppCompatActivity {
                         private void chainBlock(BlockButton b) {
                             System.out.println("x는"+b.x+" "+"y는"+b.y);
                             b.breakBlock();
-                            if (b.neighborMines != 0){
-
+                            if (b.neighborMines != 0  || b.flag){
+                                return;
                             }
                             else {
-                                if (!buttons[b.x-1][b.y].breakState && b.x != 0) chainBlock(buttons[b.x-1][b.y]);
-                                if (!buttons[b.x+1][b.y].breakState && b.x != 8) chainBlock(buttons[b.x+1][b.y]);
-                                if (!buttons[b.x][b.y-1].breakState && b.y != 0) chainBlock(buttons[b.x][b.y-1]);
-                                if (!buttons[b.x][b.y+1].breakState && b.y != 8) chainBlock(buttons[b.x][b.y+1]);
+                                if (b.x == 0 && b.y == 0){
+                                    if (!buttons[b.x+1][b.y].breakState) chainBlock(buttons[b.x+1][b.y]);
+                                    if (!buttons[b.x][b.y+1].breakState) chainBlock(buttons[b.x][b.y+1]);
+                                }
+                                else if (b.x == 0 && b.y == 8){
+                                    if (!buttons[b.x+1][b.y].breakState) chainBlock(buttons[b.x+1][b.y]);
+                                    if (!buttons[b.x][b.y-1].breakState) chainBlock(buttons[b.x][b.y-1]);
+                                    }
+                                else if(b.x == 8 && b.y == 0) {
+                                    if (!buttons[b.x-1][b.y].breakState) chainBlock(buttons[b.x-1][b.y]);
+                                    if (!buttons[b.x][b.y+1].breakState) chainBlock(buttons[b.x][b.y+1]);
+                                }
+                                else if(b.x == 8 && b.y == 8) {
+                                    if (!buttons[b.x-1][b.y].breakState) chainBlock(buttons[b.x-1][b.y]);
+                                    if (!buttons[b.x][b.y-1].breakState) chainBlock(buttons[b.x][b.y-1]);
+                                }
+                                else if(b.x == 0 && (0< b.y && b.y< 8)) {
+                                    if (!buttons[b.x+1][b.y].breakState) chainBlock(buttons[b.x+1][b.y]);
+                                    if (!buttons[b.x][b.y+1].breakState) chainBlock(buttons[b.x][b.y+1]);
+                                    if (!buttons[b.x][b.y-1].breakState) chainBlock(buttons[b.x][b.y-1]);
+                                }
+                                else if(b.x == 8 && (0< b.y && b.y< 8)) {
+                                    if (!buttons[b.x-1][b.y].breakState) chainBlock(buttons[b.x-1][b.y]);
+                                    if (!buttons[b.x][b.y+1].breakState) chainBlock(buttons[b.x][b.y+1]);
+                                    if (!buttons[b.x][b.y-1].breakState) chainBlock(buttons[b.x][b.y-1]);
+                                }
+                                else if(b.y == 0 && (0< b.x && b.x< 8)) {
+                                    if (!buttons[b.x][b.y+1].breakState) chainBlock(buttons[b.x][b.y+1]);
+                                    if (!buttons[b.x+1][b.y].breakState) chainBlock(buttons[b.x+1][b.y]);
+                                    if (!buttons[b.x-1][b.y].breakState) chainBlock(buttons[b.x-1][b.y]);
+                                }
+                                else if(b.y == 8 && (0< b.x && b.x< 8)) {
+                                    if (!buttons[b.x][b.y-1].breakState) chainBlock(buttons[b.x][b.y-1]);
+                                    if (!buttons[b.x+1][b.y].breakState) chainBlock(buttons[b.x+1][b.y]);
+                                    if (!buttons[b.x-1][b.y].breakState) chainBlock(buttons[b.x-1][b.y]);
+                                }
+                                else {
+                                    if (!buttons[b.x-1][b.y].breakState) chainBlock(buttons[b.x-1][b.y]);
+                                    if (!buttons[b.x+1][b.y].breakState) chainBlock(buttons[b.x+1][b.y]);
+                                    if (!buttons[b.x][b.y-1].breakState) chainBlock(buttons[b.x][b.y-1]);
+                                    if (!buttons[b.x][b.y+1].breakState) chainBlock(buttons[b.x][b.y+1]);
+                                }
                             }
                         }
                     });
