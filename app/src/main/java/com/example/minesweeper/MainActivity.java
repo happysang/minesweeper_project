@@ -105,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             if (tButton.isChecked()){
+
+                                chainBlock(((BlockButton) view));
+
                                 if(((BlockButton) view).breakBlock()){
                                     for (int i = 0; i < 9; i++) {
                                         for (int j = 0; j < 9; j++) {
@@ -115,8 +118,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                             else{
                                 ((BlockButton) view).toggleFlag();
-                                System.out.println("정답 수"+BlockButton.answer);
-                                System.out.println("깃발 수"+BlockButton.flags);
                                 if(BlockButton.answer == 10){
                                     for (int i = 0; i < 9; i++) {
                                         for (int j = 0; j < 9; j++) {
@@ -124,6 +125,17 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                 }
+                            }
+                        }
+
+                        private void chainBlock(BlockButton b) {
+                            if (b.neighborMines == 0){
+                                System.out.println(b.x+" "+b.y);
+                                b.breakBlock();
+                                if (b.breakState && b.x != 0) chainBlock(buttons[b.x-1][b.y]);
+                                if (b.breakState && b.x != 8) chainBlock(buttons[b.x+1][b.y]);
+                                if (b.breakState && b.y != 0) chainBlock(buttons[b.x][b.y-1]);
+                                if (b.breakState && b.y != 8) chainBlock(buttons[b.x][b.y+1]);
                             }
                         }
                     });

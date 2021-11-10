@@ -10,11 +10,15 @@ public class BlockButton extends Button {
     static int answer = 0;
     static int flags = 0;
     int neighborMines;
+    public int x;
+    public int y;
     
 
 
     public BlockButton(Context context, int x, int y) {
         super(context);
+        this.x = x;
+        this.y = y;
     }
 
     public void toggleFlag(){
@@ -56,6 +60,11 @@ public class BlockButton extends Button {
         if (this.mine){
             this.setText("\uD83D\uDCA3");
             return true;
+        }
+        //플래그인 부분 break 안되게 처리
+        else if(this.flag){
+            this.setText(this.getText());
+            return false;
         }
         else if(this.neighborMines == 0){
             this.setBackgroundColor(4);
